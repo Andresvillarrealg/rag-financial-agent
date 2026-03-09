@@ -1,0 +1,23 @@
+# Variables de entorno y secretos 
+.env
+backend/.env
+
+# Bases de datos y memoria local 
+backend/data/
+*.faiss
+*.pkl
+
+# Dependencias de React 
+frontend/node_modules/
+frontend/dist/
+
+# Dependencias y caché de Python 
+__pycache__/
+*.pyc
+*.pyo
+venv/
+env/
+
+# Archivos basura del sistema operativo
+.DS_Store
+Thumbs.db

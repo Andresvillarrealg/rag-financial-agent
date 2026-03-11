@@ -1,52 +1,53 @@
-# Agente de Análisis Inteligente RAG 
+# Intelligent RAG Analysis Agent
 
-Un sistema integral de **Retrieval-Augmented Generation (RAG)** diseñado para la ingesta, vectorización y análisis interactivo de documentos corporativos (PDF y TXT). Esta solución de automatización permite a los usuarios "conversar" con sus datos, garantizando respuestas fundamentadas (grounded) basadas exclusivamente en el contexto proporcionado, minimizando alucinaciones.
+A comprehensive **Retrieval-Augmented Generation (RAG)** system designed for the ingestion, vectorization, and interactive analysis of corporate documents (PDF and TXT). This automation solution enables users to "converse" with their data while ensuring **grounded responses** based exclusively on the provided context, minimizing hallucinations.
 
-## Arquitectura del Sistema
+## System Architecture
 
-El proyecto está construido con una arquitectura moderna, modular y en contenedores, separando claramente las responsabilidades:
+The project is built with a modern, modular, containerized architecture that clearly separates responsibilities:
 
-* **Frontend (React.js):** Interfaz de usuario reactiva para la carga asíncrona de documentos y visualización del chat en tiempo real.
-* **Backend (FastAPI):** Servidor asíncrono en Python que expone endpoints RESTful para la comunicación entre el cliente y el motor de IA. Soporta procesamiento de archivos de texto y extracción de metadatos de PDFs mediante `pypdf`.
-* **Motor de IA (LangChain & OpenAI):** Orquestador lógico que gestiona la fragmentación de documentos (`RecursiveCharacterTextSplitter`), la generación de embeddings y el diseño del *Prompt Engineering*.
-* **Base de Datos Vectorial (FAISS):** Almacenamiento local de alta eficiencia para búsquedas de similitud.
-* **Infraestructura (Docker & Docker Compose):** Contenedorización completa que garantiza entornos reproducibles. Incluye **volúmenes persistentes** para evitar la pérdida del índice vectorial entre reinicios del servidor.
+* **Frontend (React.js):** A reactive user interface for asynchronous document uploads and real-time chat visualization.
+* **Backend (FastAPI):** An asynchronous Python server that exposes RESTful endpoints for communication between the client and the AI engine. It supports text file processing and PDF metadata extraction using `pypdf`.
+* **AI Engine (LangChain & OpenAI):** A logical orchestrator responsible for document chunking (`RecursiveCharacterTextSplitter`), embedding generation, and **Prompt Engineering** design.
+* **Vector Database (FAISS):** A high-efficiency local storage system for similarity search.
+* **Infrastructure (Docker & Docker Compose):** Full containerization that ensures reproducible environments. It includes **persistent volumes** to prevent the loss of the vector index between server restarts.
 
-## Características Principales
+## Key Features
 
-1. **Ingesta de Múltiples Formatos:** Soporte nativo para lectura y extracción de texto de archivos `.txt` y `.pdf`.
-2. **Memoria Persistente:** El índice vectorial de FAISS se guarda en un volumen local montado de Docker, permitiendo conservar el conocimiento sin necesidad de re-procesar los documentos tras apagar el sistema.
-3. **Mitigación de Alucinaciones:** El agente está instruido (System Prompt) para responder estrictamente utilizando los fragmentos recuperados de la base de datos vectorial.
-4. **Despliegue Aislado:** Resolución de dependencias a bajo nivel gestionada automáticamente por la capa de Dockerización.
+1. **Multi-Format Ingestion:** Native support for reading and extracting text from `.txt` and `.pdf` files.
+2. **Persistent Memory:** The FAISS vector index is stored in a Docker-mounted local volume, allowing the system to retain knowledge without needing to reprocess documents after shutting down the system.
+3. **Hallucination Mitigation:** The agent is instructed (via System Prompt) to respond strictly using the retrieved fragments from the vector database.
+4. **Isolated Deployment:** Low-level dependency resolution is automatically managed through the Dockerization layer.
 
-## Guía de Instalación y Ejecución
+## Installation and Execution Guide
 
-### Prerrequisitos
-* [Docker](https://www.docker.com/) y Docker Compose instalados.
-* Una API Key de [OpenAI](https://platform.openai.com/).
+### Prerequisites
+* [Docker](https://www.docker.com/) and Docker Compose installed.
+* An API Key from [OpenAI](https://platform.openai.com/).
 
-### Pasos
+### Steps
 
-**1. Clonar el repositorio:**
+**1. Clone the repository:**
 ```bash
-git clone [https://github.com/tu-usuario/tu-repositorio.git](https://github.com/tu-usuario/tu-repositorio.git)
-cd tu-repositorio
+git clone https://github.com/your-username/your-repository.git
+cd your-repository
 ```
 
-**2. Configurar las variables de entorno:**
-En la carpeta `/backend`, crea un archivo llamado `.env` y agrega tu llave de OpenAI:
+**2. Configure environment variables:**
+In the `/backend` folder, create a file named `.env` and add your OpenAI key:
+
 ```env
-OPENAI_API_KEY=sk-tu_llave_secreta_aqui
+OPENAI_API_KEY=sk-your_secret_key_here
 ```
 
-**3. Construir y levantar la infraestructura:**
-Ejecuta el siguiente comando en la raíz del proyecto para descargar las imágenes, compilar el entorno y levantar los servidores:
+**3. Build and start the infrastructure:**
+Run the following command in the root of the project to download images, build the environment, and start the servers:
+
 ```bash
 docker compose up --build
 ```
 
-**4. Uso de la aplicación:**
-* Abre tu navegador y ve a `http://localhost:5173`.
-* En la sección "Ingesta de Datos", selecciona un archivo PDF o TXT y haz clic en **Subir a FAISS**.
-* Una vez procesado, utiliza el chat inferior para hacer preguntas analíticas sobre el documento.
-
+**4. Using the application:**
+* Open your browser and go to `http://localhost:5173`.
+* In the **Data Ingestion** section, select a PDF or TXT file and click **Upload to FAISS**.
+* Once processed, use the chat at the bottom to ask analytical questions about the document.
